@@ -1,0 +1,143 @@
+import tkinter as tk
+from tkinter import ttk
+import serial
+
+# =====================
+# CONFIGURACIÓN
+# =====================
+
+PUERTO = "COM4"      # Cambiar por tu puerto
+BAUDIOS = 115200
+
+arduino = None
+
+try:
+    arduino = serial.Serial(PUERTO, BAUDIOS, timeout=1)
+except:
+    print("No se pudo abrir el puerto.")
+
+# =====================
+
+rojo = 0
+verde = 0
+azul = 0
+
+
+def enviar(color, valor):
+    if arduino:
+        comando = f"{color}{valor}\n"
+        arduino.write(comando.encode())
+
+
+def actualizar():
+    lblR.config(text=str(rojo))
+    lblG.config(text=str(verde))
+    lblB.config(text=str(azul))
+
+
+def subirR():
+    global rojo
+    if rojo < 255:
+        rojo += 1
+        enviar("R", rojo)
+        actualizar()
+
+
+def bajarR():
+    global rojo
+    if rojo > 0:
+        rojo -= 1
+        enviar("R", rojo)
+        actualizar()
+
+
+def subirG():
+    global verde
+    if verde < 255:
+        verde += 1
+        enviar("G", verde)
+        actualizar()
+
+
+def bajarG():
+    global verde
+    if verde > 0:
+        verde -= 1
+        enviar("G", verde)
+        actualizar()
+
+
+def subirB():
+    global azul
+    if azul < 255:
+        azul += 1
+        enviar("B", azul)
+        actualizar()
+
+
+def bajarB():
+    global azul
+    if azul > 0:
+        azul -= 1
+        enviar("B", azul)
+        actualizar()
+
+
+ventana = tk.Tk()
+ventana.title("Control RGB")
+ventana.geometry("350x350")
+
+# =====================
+# ROJO
+# =====================
+
+tk.Label(ventana, text="ROJO", fg="red",
+         font=("Arial", 14, "bold")).pack()
+
+tk.Button(ventana, text="▲", width=8,
+          command=subirR).pack()
+
+lblR = tk.Label(ventana, text="0",
+                font=("Arial", 18))
+lblR.pack()
+
+tk.Button(ventana, text="▼", width=8,
+          command=bajarR).pack()
+
+# =====================
+# VERDE
+# =====================
+
+tk.Label(ventana, text="VERDE", fg="green",
+         font=("Arial", 14, "bold")).pack()
+
+tk.Button(ventana, text="▲", width=8,
+          command=subirG).pack()
+
+lblG = tk.Label(ventana, text="0",
+                font=("Arial", 18))
+lblG.pack()
+
+tk.Button(ventana, text="▼", width=8,
+          command=bajarG).pack()
+
+# =====================
+# AZUL
+# =====================
+
+tk.Label(ventana, text="AZUL", fg="blue",
+         font=("Arial", 14, "bold")).pack()
+
+tk.Button(ventana, text="▲", width=8,
+          command=subirB).pack()
+
+lblB = tk.Label(ventana, text="0",
+                font=("Arial", 18))
+lblB.pack()
+
+tk.Button(ventana, text="▼", width=8,
+          command=bajarB).pack()
+
+actualizar()
+
+ventana.mainloop()
