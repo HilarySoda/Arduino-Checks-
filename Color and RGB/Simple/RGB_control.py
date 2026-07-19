@@ -204,3 +204,7 @@ actualizar()
 actualizar_teclado()
 
 ventana.mainloop()
+#==== Autors: ====#
+# Hilary Soda
+# Anethe Ferrer
+# ChatGPT IA
