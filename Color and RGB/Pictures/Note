@@ -1,0 +1,14 @@
+Control RGB mediante comandos Serial
+
+   Comandos:
+   R255
+   G120
+   B070
+
+   PWM:
+   0 - 255
+
+   Pines PWM recomendados Arduino UNO
+   R -> 9
+   G -> 10
+   B -> 11
